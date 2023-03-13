@@ -1,7 +1,9 @@
-FLAGS = -lncurses -Wall
+FLAGS = -lncurses -Wall -fsanitize=address -ggdb
+
+INCLUDE = include
 
 all: main.c
-	gcc main.c ${FLAGS} -o menu
+	gcc main.c ${INCLUDE}/windows.c ${FLAGS} -o menu
 
 run:
 	./menu

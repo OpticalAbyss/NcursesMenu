@@ -1,9 +1,11 @@
 #include <ncurses.h>
 #include <aio.h>
+#include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
 #include <stdio.h>
 
+#include "include/windows.h" 
 
 int main(int argc, char** argv)
 {
@@ -22,6 +24,7 @@ int main(int argc, char** argv)
   initx = terminal_Max_X;
   inity = terminal_Max_Y;
 
+
   WINDOW * outputBox = newwin(
     (int)(terminal_Max_Y) / 4,
     (int)(terminal_Max_X) * 0.92, 
@@ -29,12 +32,18 @@ int main(int argc, char** argv)
     (int)(terminal_Max_X) * 0.04 
   );
   
+
   WINDOW * playBox = newwin(
     (int)(terminal_Max_Y) * 0.75,
     (int)(terminal_Max_X) * 0.92, 
     (int)(terminal_Max_Y) * 0,
     (int)(terminal_Max_X) * 0.04 
   );
+
+  // WINDOW** box = malloc(sizeof(WINDOW*) * 3);
+  // box[0] = outputBox;
+  // box[1] = playBox;
+  // box[2] = NULL;
 
   keypad(outputBox , 1);
 
@@ -77,7 +86,10 @@ int main(int argc, char** argv)
       wclear(outputBox);
       box(outputBox, 0 , 0);
     }
+    // resizeBox(box, stdscr);
 
+
+    //Button Drawer
     int i;
     for(i = 0 ; i < 3 ; i++)
     {
@@ -89,6 +101,8 @@ int main(int argc, char** argv)
 
     choice = wgetch(outputBox);
 
+
+    //Button selector
     switch(choice)
     {
       case KEY_UP:
@@ -105,6 +119,7 @@ int main(int argc, char** argv)
         break;
     }
 
+    //Open Respective Menu
     if(choice == 10)
     {
       switch(highlight)
@@ -130,7 +145,8 @@ int main(int argc, char** argv)
     }
   }
   exit_seq: ;
-
+  
+  // free(box);
   endwin();
   return 0;    
 }
