@@ -1,12 +1,28 @@
-FLAGS = -lncurses -Wall -fsanitize=address -ggdb
+IDIR=include
+CC=gcc
+CFLAGS=-I$(IDIR)
 
-INCLUDE = include
+ODIR=obj
+LDIR=../lib
 
-all: main.c
-	gcc main.c ${INCLUDE}/windows.c ${FLAGS} -o menu
+LIBS=-lm -lncurses
 
-run:
-	./menu
+_DEPS= windows.h def.h
+DEPS=$(patsubst %,$(IDIR)/%,$(_DIR))
+
+_OBJ= main.o windows.o
+OBJ=$(patsubst %,$(ODIR)/%,$(_OBJ))
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+all: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+.PHONY: clean
 
 clean:
-	rm *.out
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
+
+run: all
+	./all

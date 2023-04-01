@@ -1,11 +1,5 @@
-#include <ncurses.h>
-#include <aio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <time.h>
-#include <stdio.h>
-
-#include "include/windows.h" 
+#include <def.h>
+#include <windows.h> 
 
 int main(int argc, char** argv)
 {
@@ -24,21 +18,19 @@ int main(int argc, char** argv)
   initx = terminal_Max_X;
   inity = terminal_Max_Y;
 
+WINDOW * outputBox = newwin(
+  (int)(terminal_Max_Y) / 4, // Size Y
+  (int)(terminal_Max_X) * 0.92, // SIze X
+  (int)(terminal_Max_Y) * 0.75, // Start Y
+  (int)(terminal_Max_X) * 0.04  // Start X
+);
 
-  WINDOW * outputBox = newwin(
-    (int)(terminal_Max_Y) / 4,
-    (int)(terminal_Max_X) * 0.92, 
-    (int)(terminal_Max_Y) * 0.75,
-    (int)(terminal_Max_X) * 0.04 
-  );
-  
-
-  WINDOW * playBox = newwin(
-    (int)(terminal_Max_Y) * 0.75,
-    (int)(terminal_Max_X) * 0.92, 
-    (int)(terminal_Max_Y) * 0,
-    (int)(terminal_Max_X) * 0.04 
-  );
+WINDOW * playBox = newwin(
+  (int)(terminal_Max_Y) * 0.75,
+  (int)(terminal_Max_X) * 0.92, 
+  (int)(terminal_Max_Y) * 0,
+  (int)(terminal_Max_X) * 0.04 
+);
 
   // WINDOW** box = malloc(sizeof(WINDOW*) * 3);
   // box[0] = outputBox;
